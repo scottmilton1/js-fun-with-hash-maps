@@ -29,8 +29,6 @@ function createHashMap(arr)
     }
 }
 
-createHashMap(numbers);
-
 
 // TEST CASES:
 
@@ -55,10 +53,34 @@ function testTotalCount(arr, hm) {
 
 // test 2: make sure all values in array are in hashMap
 function testAllValues(arr, hm) { 
+    var displayMessage = "testAllValues: ";
 
+    // check that each element in array is also in hashMap
+    outer:
+    for (var i = 0; i < arr.length; i++) {
+        for (var j in hm) {
+            var val = hm[j]; 
+            if (val[0] === arr[i]) {
+                // remove the matched value from hashMap
+                // in more permanent version, would deep
+                // copy entire hashMap to preserve it
+                val.shift();
+                break outer;
+            }
+        }
+        // if any array value not found in hashMap, test fails
+        console.log(displayMessage += "FAIL");
+        return;
+    }
+    // if all values found, test passes
+    console.log(displayMessage += "PASS");
 }
 
+
+// create hash map
+createHashMap(numbers);
+
+// run tests
 console.log("RUNNING TESTS:");
-
 testTotalCount(numbers, hashMap);
-
+testAllValues(numbers, hashMap);
