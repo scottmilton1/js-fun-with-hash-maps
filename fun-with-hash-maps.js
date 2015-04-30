@@ -56,22 +56,24 @@ function testAllValues(arr, hm) {
     var displayMessage = "testAllValues: ";
 
     // check that each element in array is also in hashMap
-    outer:
     for (var i = 0; i < arr.length; i++) {
-        for (var j in hm) {
-            var val = hm[j]; 
-            if (val[0] === arr[i]) {
-                // remove the matched value from hashMap
-                // in more permanent version, would deep
-                // copy entire hashMap to preserve it
-                val.shift();
-                break outer;
-            }
-        }
-        // if any array value not found in hashMap, test fails
-        console.log(displayMessage += "FAIL");
-        return;
+        
+        // calculate hash key for current array index
+        var bucket = arr[i];
+
+        // if array value not found in hashMap, test fails
+        if (hm[bucket][0] !== arr[i]) {
+            console.log(displayMessage += "FAIL"); 
+            return;
+        } else {
+            // remove the matched value from hashMap
+            // in more permanent version, could deep
+            // copy entire hashMap to preserve it           
+            var val = hm[bucket]; 
+            val.shift();
+        }  
     }
+
     // if all values found, test passes
     console.log(displayMessage += "PASS");
 }
